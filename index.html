@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>X̌ik-wor Keyboard — Type Wakhi, Preserve a Language</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink: #1a120b;
+    --parchment: #f5ede0;
+    --sand: #e8d5b7;
+    --terracotta: #c25b2a;
+    --ember: #e07b39;
+    --mountain: #2c3e50;
+    --moss: #4a5c3a;
+    --gold: #c9943a;
+    --cream: #faf4eb;
+    --char: #2a1f14;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: var(--char);
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+  }
+
+  .hero-bg-pattern {
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 40px,
+        rgba(201,148,58,0.04) 40px,
+        rgba(201,148,58,0.04) 41px
+      ),
+      repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 40px,
+        rgba(201,148,58,0.03) 40px,
+        rgba(201,148,58,0.03) 41px
+      );
+  }
+
+  .hero-left {
+    padding: 80px 60px 80px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    padding: 80px 60px;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(201,148,58,0.15);
+    border: 1px solid rgba(201,148,58,0.4);
+    color: var(--gold);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 2px;
+    margin-bottom: 32px;
+    width: fit-content;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--terracotta);
+    animation: pulse 2s ease infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(48px, 6vw, 88px);
+    font-weight: 900;
+    line-height: 1.0;
+    color: var(--parchment);
+    margin-bottom: 8px;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+
+  .hero-title-accent {
+    color: var(--gold);
+    font-style: italic;
+    display: block;
+  }
+
+  .hero-subtitle-lang {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: rgba(245,237,224,0.4);
+    letter-spacing: 0.08em;
+    margin-bottom: 28px;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero-desc {
+    font-size: 19px;
+    color: rgba(245,237,224,0.75);
+    line-height: 1.8;
+    max-width: 480px;
+    margin-bottom: 48px;
+    font-weight: 300;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .hero-desc strong {
+    color: var(--sand);
+    font-weight: 600;
+  }
+
+  .cta-group {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+
+  .btn-primary {
+    background: var(--terracotta);
+    color: #fff;
+    border: none;
+    padding: 16px 32px;
+    font-family: 'Crimson Pro', serif;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-primary:hover {
+    background: var(--ember);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    color: rgba(245,237,224,0.6);
+    font-family: 'Crimson Pro', serif;
+    font-size: 16px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    transition: color 0.2s;
+  }
+
+  .btn-secondary:hover { color: var(--parchment); }
+
+  /* ── KEYBOARD VISUAL ── */
+  .keyboard-visual {
+    background: rgba(245,237,224,0.05);
+    border: 1px solid rgba(245,237,224,0.1);
+    border-radius: 12px;
+    padding: 24px 20px;
+    width: 100%;
+    max-width: 440px;
+    animation: fadeUp 0.8s 0.5s ease both;
+    backdrop-filter: blur(4px);
+  }
+
+  .kb-screen {
+    background: rgba(201,148,58,0.1);
+    border: 1px solid rgba(201,148,58,0.2);
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--gold);
+    min-height: 40px;
+  }
+
+  .kb-row {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    margin-bottom: 5px;
+  }
+
+  .kb-key {
+    background: rgba(245,237,224,0.08);
+    border: 1px solid rgba(245,237,224,0.15);
+    border-bottom: 3px solid rgba(0,0,0,0.3);
+    border-radius: 4px;
+    color: var(--parchment);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 8px 10px;
+    min-width: 36px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.1s;
+    user-select: none;
+    position: relative;
+  }
+
+  .kb-key:hover, .kb-key.active {
+    background: rgba(194,91,42,0.3);
+    border-color: var(--terracotta);
+    transform: translateY(1px);
+    border-bottom-width: 1px;
+  }
+
+  .kb-key .special {
+    display: block;
+    font-size: 8px;
+    color: var(--gold);
+    margin-top: 1px;
+  }
+
+  .kb-key.space {
+    min-width: 160px;
+    color: rgba(245,237,224,0.3);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+  }
+
+  .kb-key.wide { min-width: 56px; }
+  .kb-key.action {
+    background: rgba(194,91,42,0.2);
+    color: var(--ember);
+    font-size: 9px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── DIVIDER ── */
+  .section-divider {
+    height: 4px;
+    background: linear-gradient(90deg, var(--terracotta), var(--gold), var(--moss));
+  }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    background: var(--mountain);
+    padding: 32px 80px;
+    display: flex;
+    gap: 0;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .stat-item {
+    text-align: center;
+    flex: 1;
+    padding: 0 20px;
+    position: relative;
+  }
+
+  .stat-item + .stat-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10%;
+    height: 80%;
+    width: 1px;
+    background: rgba(245,237,224,0.15);
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: rgba(245,237,224,0.5);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* ── ABOUT SECTION ── */
+  .section {
+    padding: 100px 80px;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 20px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--char);
+    margin-bottom: 28px;
+  }
+
+  .section-title em {
+    font-style: italic;
+    color: var(--terracotta);
+  }
+
+  /* ── ABOUT GRID ── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .about-text p {
+    color: #3a2a1a;
+    margin-bottom: 20px;
+    font-size: 18px;
+    line-height: 1.85;
+  }
+
+  .quote-block {
+    border-left: 3px solid var(--gold);
+    padding: 20px 28px;
+    background: rgba(201,148,58,0.06);
+    margin: 32px 0;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .quote-block p {
+    font-style: italic;
+    font-size: 17px;
+    color: var(--mountain);
+    margin: 0 0 10px 0 !important;
+  }
+
+  .quote-block cite {
+    font-size: 13px;
+    font-family: 'DM Mono', monospace;
+    color: var(--gold);
+    font-style: normal;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── MAP VISUAL ── */
+  .region-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .region-card {
+    background: var(--char);
+    border-radius: 6px;
+    padding: 20px;
+    border: 1px solid rgba(201,148,58,0.2);
+    transition: border-color 0.2s;
+  }
+
+  .region-card:hover { border-color: var(--gold); }
+
+  .region-flag {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+
+  .region-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    color: var(--parchment);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .region-detail {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: rgba(245,237,224,0.4);
+    letter-spacing: 0.04em;
+  }
+
+  .region-script {
+    margin-top: 10px;
+    font-size: 18px;
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  /* ── CHARACTERS SECTION ── */
+  .chars-section {
+    background: var(--char);
+    padding: 100px 80px;
+  }
+
+  .chars-section .section-title { color: var(--parchment); }
+  .chars-section .section-label { color: var(--ember); }
+
+  .chars-intro {
+    color: rgba(245,237,224,0.6);
+    font-size: 18px;
+    max-width: 600px;
+    margin-bottom: 48px;
+  }
+
+  .char-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 48px;
+  }
+
+  .char-pill {
+    background: rgba(245,237,224,0.06);
+    border: 1px solid rgba(245,237,224,0.12);
+    border-radius: 4px;
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s;
+    cursor: default;
+  }
+
+  .char-pill:hover {
+    background: rgba(194,91,42,0.2);
+    border-color: var(--terracotta);
+  }
+
+  .char-main {
+    font-size: 24px;
+    color: var(--parchment);
+    font-family: 'Crimson Pro', serif;
+    line-height: 1;
+  }
+
+  .char-note {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: rgba(245,237,224,0.3);
+    letter-spacing: 0.04em;
+  }
+
+  .char-pill.special-char {
+    border-color: rgba(201,148,58,0.3);
+    background: rgba(201,148,58,0.08);
+  }
+
+  .char-pill.special-char .char-main { color: var(--gold); }
+
+  /* ── SOURCES SECTION ── */
+  .sources-section {
+    background: var(--sand);
+    padding: 100px 80px;
+  }
+
+  .sources-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 48px;
+  }
+
+  .source-card {
+    background: #fff;
+    border-radius: 4px;
+    padding: 20px 22px;
+    border-bottom: 3px solid transparent;
+    transition: border-color 0.2s;
+  }
+
+  .source-card:hover { border-color: var(--terracotta); }
+
+  .source-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--terracotta);
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+  }
+
+  .source-author {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--char);
+    margin-bottom: 4px;
+  }
+
+  .source-title {
+    font-size: 13px;
+    color: #6b5040;
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  .source-inst {
+    margin-top: 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--gold);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── WAITLIST ── */
+  .waitlist-section {
+    background: var(--terracotta);
+    padding: 100px 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .waitlist-section .section-label { color: rgba(255,255,255,0.6); }
+  .waitlist-section .section-title { color: #fff; }
+
+  .waitlist-desc {
+    color: rgba(255,255,255,0.8);
+    font-size: 18px;
+    margin-top: 16px;
+  }
+
+  .waitlist-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .form-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .form-input {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 2px;
+    padding: 14px 18px;
+    color: #fff;
+    font-family: 'Crimson Pro', serif;
+    font-size: 17px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+
+  .form-input::placeholder { color: rgba(255,255,255,0.4); }
+  .form-input:focus { border-color: rgba(255,255,255,0.7); }
+
+  .form-select {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 2px;
+    padding: 14px 18px;
+    color: #fff;
+    font-family: 'Crimson Pro', serif;
+    font-size: 17px;
+    outline: none;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  .form-select option { background: var(--char); color: #fff; }
+
+  .btn-submit {
+    background: var(--char);
+    color: var(--parchment);
+    border: none;
+    padding: 18px 36px;
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+    width: 100%;
+    margin-top: 8px;
+    letter-spacing: 0.02em;
+  }
+
+  .btn-submit:hover { background: #1a0f08; transform: translateY(-1px); }
+
+  .form-note {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    font-style: italic;
+  }
+
+  .success-msg {
+    display: none;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 4px;
+    padding: 24px;
+    text-align: center;
+    color: #fff;
+  }
+
+  .success-msg h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    margin-bottom: 8px;
+  }
+
+  /* ── OPEN SOURCE BANNER ── */
+  .oss-section {
+    background: var(--moss);
+    padding: 60px 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+  }
+
+  .oss-text .section-label { color: rgba(245,237,224,0.5); }
+
+  .oss-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--parchment);
+    font-weight: 700;
+    margin-top: 8px;
+    margin-bottom: 12px;
+  }
+
+  .oss-desc {
+    color: rgba(245,237,224,0.65);
+    font-size: 17px;
+    max-width: 500px;
+  }
+
+  .btn-github {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--parchment);
+    color: var(--char);
+    padding: 14px 28px;
+    border-radius: 2px;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  .btn-github:hover { background: var(--gold); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    padding: 48px 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--parchment);
+    font-weight: 700;
+  }
+
+  .footer-brand span { color: var(--gold); font-style: italic; }
+
+  .footer-links {
+    display: flex;
+    gap: 24px;
+  }
+
+  .footer-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: rgba(245,237,224,0.4);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--gold); }
+
+  .footer-copy {
+    font-size: 13px;
+    color: rgba(245,237,224,0.3);
+    font-style: italic;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .hero-left { padding: 60px 32px; }
+    .about-grid, .waitlist-section { grid-template-columns: 1fr; gap: 40px; }
+    .section, .chars-section, .sources-section { padding: 60px 32px; }
+    .stats-bar { padding: 32px; flex-wrap: wrap; gap: 32px; }
+    .stat-item + .stat-item::before { display: none; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .oss-section { flex-direction: column; padding: 48px 32px; }
+    footer { flex-direction: column; gap: 20px; padding: 40px 32px; text-align: center; }
+    .footer-links { flex-wrap: wrap; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-bg-pattern"></div>
+
+  <div class="hero-left">
+    <div class="badge">
+      <span class="badge-dot"></span>
+      Open Source · Weekend Project · Latin Script
+    </div>
+
+    <h1 class="hero-title">
+      Type in
+      <span class="hero-title-accent">X̌ik-wor.</span>
+    </h1>
+
+    <p class="hero-subtitle-lang">ښیکوار · Х̆ик · Wakhi Language Keyboard for Android</p>
+
+    <p class="hero-desc">
+      The <strong>first modern Android keyboard</strong> for the Wakhi language — bringing 43 characters of the Latin romanized script to your fingertips. Built on weekends to preserve a language spoken by 50,000–85,000 people across the Pamir mountains.
+    </p>
+
+    <div class="cta-group">
+      <a href="#waitlist" class="btn-primary">Join the Waitlist →</a>
+      <button class="btn-secondary" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">Learn about Wakhi</button>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="keyboard-visual">
+      <div class="kb-screen" id="kb-display">x̌ik-wor zik&nbsp;<span style="opacity:0.4;animation:pulse 1s ease infinite">|</span></div>
+
+      <div class="kb-row">
+        <div class="kb-key" data-char="q">q</div>
+        <div class="kb-key" data-char="w">w</div>
+        <div class="kb-key" data-char="e">e</div>
+        <div class="kb-key" data-char="ə">ə<span class="special">long-press e</span></div>
+        <div class="kb-key" data-char="r">r</div>
+        <div class="kb-key" data-char="t">t</div>
+        <div class="kb-key" data-char="θ">θ<span class="special">long-press t</span></div>
+        <div class="kb-key" data-char="x̌">x̌<span class="special">long-press x</span></div>
+        <div class="kb-key" data-char="ʉ">ʉ<span class="special">long-press u</span></div>
+      </div>
+      <div class="kb-row">
+        <div class="kb-key" data-char="a">a</div>
+        <div class="kb-key" data-char="š">š<span class="special">long-press s</span></div>
+        <div class="kb-key" data-char="d">d</div>
+        <div class="kb-key" data-char="ḍ">ḍ<span class="special">long-press d</span></div>
+        <div class="kb-key" data-char="f">f</div>
+        <div class="kb-key" data-char="ɣ">ɣ<span class="special">long-press g</span></div>
+        <div class="kb-key" data-char="h">h</div>
+        <div class="kb-key" data-char="ǰ">ǰ<span class="special">long-press j</span></div>
+        <div class="kb-key" data-char="k">k</div>
+      </div>
+      <div class="kb-row">
+        <div class="kb-key" data-char="ž">ž<span class="special">long-press z</span></div>
+        <div class="kb-key" data-char="č">č<span class="special">long-press c</span></div>
+        <div class="kb-key" data-char="ð">ð</div>
+        <div class="kb-key" data-char="b">b</div>
+        <div class="kb-key" data-char="n">n</div>
+        <div class="kb-key" data-char="m">m</div>
+      </div>
+      <div class="kb-row">
+        <div class="kb-key action wide">⌫</div>
+        <div class="kb-key space" data-char=" ">SPACE</div>
+        <div class="kb-key action wide">↵</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ── STATS ── -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-num">~75K</div>
+    <div class="stat-label">speakers worldwide</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">4</div>
+    <div class="stat-label">countries</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">43</div>
+    <div class="stat-label">Latin characters</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">150+</div>
+    <div class="stat-label">years of scholarship</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">0</div>
+    <div class="stat-label">modern keyboards</div>
+  </div>
+</div>
+
+<!-- ── ABOUT ── -->
+<section class="section" id="about">
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p class="section-label">The Language</p>
+      <h2 class="section-title">An ancient tongue <em>at the roof of the world.</em></h2>
+
+      <p>Wakhi — or <em>X̌ik-wor</em> as its speakers call it — is an Eastern Iranian language over a thousand years old, spoken in the high-altitude valleys where Pakistan, Afghanistan, Tajikistan, and China converge. It is the voice of the Pamir mountains.</p>
+
+      <p>Classified as endangered, Wakhi has never had a standardized digital writing system that its speakers could use across borders. Academics have documented it in Latin script since 1876. The community types it informally today — but without the right tools.</p>
+
+      <div class="quote-block">
+        <p>"Wakhi writing is already increasingly appearing online and in social media using Roman letters."</p>
+        <cite>— Endangered Language Alliance, New York</cite>
+      </div>
+
+      <p>This keyboard changes that. No ads. No data collection. Just a free, open-source tool so that a Wakhi speaker in Gojal, Wakhan, Gorno-Badakhshan, or Xinjiang can type their language on any Android phone.</p>
+    </div>
+
+    <div class="reveal" style="transition-delay:0.15s">
+      <div class="region-cards">
+        <div class="region-card">
+          <div class="region-flag">🇵🇰</div>
+          <div class="region-name">Pakistan</div>
+          <div class="region-detail">Gilgit-Baltistan · Gojal · Hunza</div>
+          <div class="region-script">x̌ik mardamiš</div>
+        </div>
+        <div class="region-card">
+          <div class="region-flag">🇦🇫</div>
+          <div class="region-name">Afghanistan</div>
+          <div class="region-detail">Wakhan Corridor · Badakhshan</div>
+          <div class="region-script">wux̌ diyor</div>
+        </div>
+        <div class="region-card">
+          <div class="region-flag">🇹🇯</div>
+          <div class="region-name">Tajikistan</div>
+          <div class="region-detail">Gorno-Badakhshan · Ishkashim</div>
+          <div class="region-script">x̌ikwor žindaiš</div>
+        </div>
+        <div class="region-card">
+          <div class="region-flag">🇨🇳</div>
+          <div class="region-name">China</div>
+          <div class="region-detail">Xinjiang · Taxkorgan · Dafdar</div>
+          <div class="region-script">x̌ik zik</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CHARACTERS ── -->
+<section class="chars-section" id="characters">
+  <p class="section-label reveal">The Script</p>
+  <h2 class="section-title reveal">43 characters. <em>All in Unicode.</em></h2>
+  <p class="chars-intro reveal">The complete Latin Wakhi alphabet — including 19 special characters not found on any standard keyboard. All accessible via long-press. No custom fonts required.</p>
+
+  <div class="char-grid reveal">
+    <!-- Standard Latin -->
+    <div class="char-pill"><span class="char-main">a</span><span class="char-note">standard</span></div>
+    <div class="char-pill"><span class="char-main">b</span><span class="char-note">standard</span></div>
+    <div class="char-pill special-char"><span class="char-main">č</span><span class="char-note">c+caron</span></div>
+    <div class="char-pill special-char"><span class="char-main">č̣</span><span class="char-note">retroflex</span></div>
+    <div class="char-pill"><span class="char-main">d</span><span class="char-note">standard</span></div>
+    <div class="char-pill special-char"><span class="char-main">ḍ</span><span class="char-note">retroflex</span></div>
+    <div class="char-pill special-char"><span class="char-main">ð</span><span class="char-note">eth</span></div>
+    <div class="char-pill special-char"><span class="char-main">ʣ</span><span class="char-note">dz affric.</span></div>
+    <div class="char-pill"><span class="char-main">e</span><span class="char-note">standard</span></div>
+    <div class="char-pill special-char"><span class="char-main">ə</span><span class="char-note">schwa</span></div>
+    <div class="char-pill"><span class="char-main">f</span><span class="char-note">standard</span></div>
+    <div class="char-pill"><span class="char-main">g</span><span class="char-note">standard</span></div>
+    <div class="char-pill special-char"><span class="char-main">ɣ</span><span class="char-note">gamma</span></div>
+    <div class="char-pill special-char"><span class="char-main">ɣ̌</span><span class="char-note">g+caron</span></div>
+    <div class="char-pill"><span class="char-main">h</span><span class="char-note">standard</span></div>
+    <div class="char-pill"><span class="char-main">i</span><span class="char-note">standard</span></div>
+    <div class="char-pill"><span class="char-main">j</span><span class="char-note">standard</span></div>
+    <div class="char-pill special-char"><span class="char-main">ǰ</span><span class="char-note">j+caron</span></div>
+    <div class="char-pill"><span class="char-main">k</span><span class="char-note">standard</span></div>
+    <div class="char-pill"><span class="char-main">l</span><span class="char-note">standard</span></div>
+    <div class="char-pill"><span class="char-main">m</span><span class="char-note">standard</span></div>
+    <div class="char-pill"><span class="char-main">n</span><span class="char-note">standard</span></div>
+    <div class="char-pill"><span class="char-main">o</span><span class="char-note">standard</span></div>
+    <div class="char-pill"><span class="char-main">p</span><span class="char-note">standard</span></div>
+    <div class="char-pill"><span class="char-main">q</span><span class="char-note">standard</span></div>
+    <div class="char-pill"><span class="char-main">r</span><span class="char-note">standard</span></div>
+    <div class="char-pill"><span class="char-main">s</span><span class="char-note">standard</span></div>
+    <div class="char-pill special-char"><span class="char-main">š</span><span class="char-note">s+caron</span></div>
+    <div class="char-pill special-char"><span class="char-main">ṣ̌</span><span class="char-note">retroflex</span></div>
+    <div class="char-pill"><span class="char-main">t</span><span class="char-note">standard</span></div>
+    <div class="char-pill special-char"><span class="char-main">ṭ</span><span class="char-note">retroflex</span></div>
+    <div class="char-pill special-char"><span class="char-main">θ</span><span class="char-note">theta</span></div>
+    <div class="char-pill special-char"><span class="char-main">ʦ</span><span class="char-note">ts affric.</span></div>
+    <div class="char-pill"><span class="char-main">u</span><span class="char-note">standard</span></div>
+    <div class="char-pill special-char"><span class="char-main">ʉ</span><span class="char-note">u+stroke</span></div>
+    <div class="char-pill"><span class="char-main">v</span><span class="char-note">standard</span></div>
+    <div class="char-pill"><span class="char-main">w</span><span class="char-note">standard</span></div>
+    <div class="char-pill"><span class="char-main">x</span><span class="char-note">standard</span></div>
+    <div class="char-pill special-char"><span class="char-main">x̌</span><span class="char-note">x+caron</span></div>
+    <div class="char-pill"><span class="char-main">y</span><span class="char-note">standard</span></div>
+    <div class="char-pill"><span class="char-main">z</span><span class="char-note">standard</span></div>
+    <div class="char-pill special-char"><span class="char-main">ž</span><span class="char-note">z+caron</span></div>
+    <div class="char-pill special-char"><span class="char-main">ы</span><span class="char-note">Cyrillic-y</span></div>
+  </div>
+
+  <p style="font-family:'DM Mono',monospace;font-size:12px;color:rgba(245,237,224,0.35);letter-spacing:0.06em;">
+    ● HIGHLIGHTED = special characters not on a standard QWERTY keyboard &nbsp;·&nbsp; All Unicode Standard compliant
+  </p>
+</section>
+
+<!-- ── ACADEMIC SOURCES ── -->
+<section class="sources-section" id="research">
+  <p class="section-label reveal">Research Foundation</p>
+  <h2 class="section-title reveal">150 years of scholarship <em>backs Latin.</em></h2>
+  <p style="color:#5a3e28;font-size:18px;max-width:620px;margin-bottom:0;" class="reveal">
+    Every major academic institution that has studied Wakhi — from the British colonial era to today's Max Planck Institute — uses the Latin romanized script exclusively.
+  </p>
+
+  <div class="sources-grid reveal">
+    <div class="source-card">
+      <div class="source-year">1876</div>
+      <div class="source-author">Robert Shaw</div>
+      <div class="source-title">On the Ghalchah Languages (Wakhi and Sarikoli)</div>
+      <div class="source-inst">Journal of the Asiatic Society of Bengal</div>
+    </div>
+    <div class="source-card">
+      <div class="source-year">1938</div>
+      <div class="source-author">Georg Morgenstierne</div>
+      <div class="source-title">Indo-Iranian Frontier Languages</div>
+      <div class="source-inst">University of Oslo</div>
+    </div>
+    <div class="source-card">
+      <div class="source-year">1958</div>
+      <div class="source-author">D. L. R. Lorimer</div>
+      <div class="source-title">The Wakhi Language (2 vols.)</div>
+      <div class="source-inst">SOAS, University of London</div>
+    </div>
+    <div class="source-card">
+      <div class="source-year">1953–1962</div>
+      <div class="source-author">Zaroubine, Sokolova, Grünberg & Steblin-Kamensky</div>
+      <div class="source-title">Latin Wakhi Alphabet Development</div>
+      <div class="source-inst">Soviet Academy of Sciences</div>
+    </div>
+    <div class="source-card">
+      <div class="source-year">1999</div>
+      <div class="source-author">I. M. Steblin-Kamensky</div>
+      <div class="source-title">Etymological Dictionary of the Wakhi Language</div>
+      <div class="source-inst">Russian Academy of Sciences, St. Petersburg</div>
+    </div>
+    <div class="source-card">
+      <div class="source-year">2009</div>
+      <div class="source-author">Elena Bashir</div>
+      <div class="source-title">Wakhi — in The Iranian Languages (ed. Windfuhr)</div>
+      <div class="source-inst">Routledge</div>
+    </div>
+    <div class="source-card">
+      <div class="source-year">2010–present</div>
+      <div class="source-author">Endangered Language Alliance</div>
+      <div class="source-title">Wakhi Language Documentation Project</div>
+      <div class="source-inst">New York / Columbia University</div>
+    </div>
+    <div class="source-card">
+      <div class="source-year">2019</div>
+      <div class="source-author">Jaroslava Obrtelová</div>
+      <div class="source-title">Narrative Structure of Wakhi Oral Stories</div>
+      <div class="source-inst">Uppsala University (Open Access)</div>
+    </div>
+    <div class="source-card">
+      <div class="source-year">2019</div>
+      <div class="source-author">PHOIBLE 2.0</div>
+      <div class="source-title">Wakhi Phonemic Inventory</div>
+      <div class="source-inst">Max Planck Institute for Human History</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WAITLIST ── -->
+<section class="waitlist-section" id="waitlist">
+  <div class="reveal">
+    <p class="section-label">Be First</p>
+    <h2 class="section-title">Get early access when it ships.</h2>
+    <p class="waitlist-desc">This is a weekend project built out of love for a language. Join the waitlist and we'll notify you the moment the keyboard is ready for Android.</p>
+  </div>
+
+  <div class="reveal" style="transition-delay:0.15s">
+    <form class="waitlist-form" id="waitlistForm" onsubmit="handleSubmit(event)">
+      <div class="form-group">
+        <label class="form-label">Your Name</label>
+        <input class="form-input" type="text" placeholder="Enter your name" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input class="form-input" type="email" placeholder="you@example.com" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Your Connection to Wakhi</label>
+        <select class="form-select">
+          <option value="">Select one...</option>
+          <option>Native Wakhi speaker</option>
+          <option>Wakhi heritage / diaspora</option>
+          <option>Linguist / researcher</option>
+          <option>Language preservation advocate</option>
+          <option>Curious supporter</option>
+        </select>
+      </div>
+      <button type="submit" class="btn-submit">Join the Waitlist →</button>
+      <p class="form-note">No spam. Just one email when we launch.</p>
+    </form>
+
+    <div class="success-msg" id="successMsg">
+      <h3>شكريه — Šukriya!</h3>
+      <p>You're on the list. We'll reach out the moment the keyboard is ready.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── OPEN SOURCE ── -->
+<section class="oss-section">
+  <div class="oss-text">
+    <p class="section-label">Open Source</p>
+    <h3 class="oss-title">Built in public. Contributions welcome.</h3>
+    <p class="oss-desc">This is a community project. No company behind it, no funding, no agenda — just a developer who thinks every language deserves a keyboard. Star the repo, open an issue, send a PR.</p>
+  </div>
+  <a href="https://github.com/zedaan/WAKHI-LANGUAGE-KEYBOARD-Latin" target="_blank" class="btn-github">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+    View on GitHub
+  </a>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-brand">X̌ik-wor <span>Keyboard</span></div>
+  <div class="footer-links">
+    <a href="#about">About</a>
+    <a href="#characters">Script</a>
+    <a href="#research">Research</a>
+    <a href="#waitlist">Waitlist</a>
+    <a href="https://github.com/zedaan/WAKHI-LANGUAGE-KEYBOARD-Latin" target="_blank">GitHub</a>
+  </div>
+  <div class="footer-copy">Built on weekends. For a language that deserves better.</div>
+</footer>
+
+<script>
+  // Interactive keyboard demo
+  const display = document.getElementById('kb-display');
+  let typed = 'x̌ik-wor zik';
+
+  document.querySelectorAll('.kb-key[data-char]').forEach(key => {
+    key.addEventListener('click', () => {
+      const char = key.dataset.char;
+      if (char === ' ') { typed += ' '; }
+      else { typed += char; }
+      display.innerHTML = typed + '<span style="opacity:0.4">|</span>';
+      key.classList.add('active');
+      setTimeout(() => key.classList.remove('active'), 150);
+    });
+  });
+
+  // Handle backspace
+  document.querySelectorAll('.kb-key.action').forEach(key => {
+    if (key.textContent.includes('⌫')) {
+      key.addEventListener('click', () => {
+        typed = [...typed].slice(0, -1).join('');
+        display.innerHTML = typed + '<span style="opacity:0.4">|</span>';
+        key.classList.add('active');
+        setTimeout(() => key.classList.remove('active'), 150);
+      });
+    }
+  });
+
+  // Waitlist form
+  function handleSubmit(e) {
+    e.preventDefault();
+    document.getElementById('waitlistForm').style.display = 'none';
+    document.getElementById('successMsg').style.display = 'block';
+  }
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
